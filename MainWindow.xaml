@@ -1,0 +1,131 @@
+﻿<Window x:Class="PongGame.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Pong Game" Height="450" Width="800" Background="#2F3847">
+
+    <!-- Viewbox to make the game responsive -->
+    <Viewbox Stretch="Fill">
+        <!-- Canvas containing the Pong game -->
+        <Canvas x:Name="GameCanvas" Width="815" Height="450" Background="#2F3847">
+
+            <!-- Top wall -->
+            <Rectangle x:Name="TopWall"
+               Width="815" Height="10"
+               Fill="White" Canvas.Top="0" HorizontalAlignment="Left" VerticalAlignment="Center" />
+
+            <!-- Bottom wall -->
+            <Rectangle x:Name="BottomWall"
+               Width="815" Height="10"
+               Fill="White" Canvas.Top="440" HorizontalAlignment="Left" VerticalAlignment="Center" />
+
+            <!-- Left wall top part (above the paddle) -->
+            <Rectangle x:Name="LeftWallTop"
+               Width="10" Height="100"
+               Fill="White" Canvas.Top="10" Canvas.Left="0" />
+
+            <!-- Left wall bottom part (below the paddle) -->
+            <Rectangle x:Name="LeftWallBottom"
+               Width="10" Height="100"
+               Fill="White" Canvas.Top="340" Canvas.Left="0" HorizontalAlignment="Center" VerticalAlignment="Top" />
+
+            <!-- Right wall top part (above the paddle) -->
+            <Rectangle x:Name="RightWallTop"
+               Width="10" Height="100"
+               Fill="White" Canvas.Top="10" Canvas.Left="805" HorizontalAlignment="Left" VerticalAlignment="Center" />
+
+            <!-- Right wall bottom part (below the paddle) -->
+            <Rectangle x:Name="RightWallBottom"
+               Width="10" Height="100"
+               Fill="White" Canvas.Top="340" Canvas.Left="805" HorizontalAlignment="Left" VerticalAlignment="Center" />
+
+            <!-- Player 1 score -->
+            <TextBlock x:Name="ScoreText1"
+               Text="0" FontSize="36" Foreground="White"
+               Canvas.Left="200" Canvas.Top="20" />
+
+            <!-- Player 2 score -->
+            <TextBlock x:Name="ScoreText2"
+               Text="0" FontSize="36" Foreground="White"
+               Canvas.Left="580" Canvas.Top="20" />
+
+            <!-- Player 1 paddle -->
+            <Rectangle x:Name="Paddle1"
+               Width="10" Height="100"
+               Fill="White" Canvas.Left="32" Canvas.Top="175" />
+
+            <!-- Player 2 paddle -->
+            <Rectangle x:Name="Paddle2"
+               Width="10" Height="100"
+               Fill="White" Canvas.Left="758" Canvas.Top="175" />
+
+            <!-- Ball -->
+            <Ellipse x:Name="Ball"
+               Width="20" Height="20"
+               Fill="White" Canvas.Left="390" Canvas.Top="215" />
+
+            <!-- Main Menu Grid -->
+            <Grid x:Name="MainMenuGrid" Visibility="Visible" IsHitTestVisible="True" Height="450" Width="815">
+                <!-- Semi-transparent background for the main menu -->
+                <Grid.Background>
+                    <SolidColorBrush Color="Black" Opacity="0.3"/>
+                </Grid.Background>
+
+                <!-- Content in the main menu (title and buttons) -->
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <!-- Title -->
+                    <TextBlock Text="Pong Game" Foreground="White" FontSize="36" HorizontalAlignment="Center" Opacity="1" Margin="0,0,0,20"/>
+
+                    <!-- Game Mode Selection -->
+                    <TextBlock Text="Select Game Mode:" Foreground="White" FontSize="20" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+                    <ComboBox x:Name="GameModeComboBox" Width="150" Height="30" SelectionChanged="GameModeComboBox_SelectionChanged" Margin="0,0,0,10">
+                        <ComboBoxItem Content="Two Players"/>
+                        <ComboBoxItem Content="One Player" IsSelected="True"/>
+                        <!-- One Player as the default selection -->
+                    </ComboBox>
+
+                    <!-- Difficulty Selection (only for One Player mode) -->
+                    <StackPanel x:Name="DifficultyPanel" Visibility="Visible" Margin="0,0,0,10">
+                        <TextBlock Text="Select Difficulty:" Foreground="White" FontSize="20" Margin="0,0,0,5" HorizontalAlignment="Center"/>
+                        <ComboBox x:Name="DifficultyComboBox" Width="150" Height="30" IsEnabled="True" SelectionChanged="DifficultyComboBox_SelectionChanged">
+                            <ComboBoxItem Content="Easy" IsSelected="True"/>
+                            <ComboBoxItem Content="Medium"/>
+                            <ComboBoxItem Content="Hard"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <!-- Play Button -->
+                    <Button x:Name="PlayButton" Content="Play" Width="100" Height="25" Click="PlayButton_Click" Opacity="1" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Pause Menu Grid (Initially hidden) -->
+            <Grid x:Name="PauseMenuGrid" Visibility="Collapsed" IsHitTestVisible="True" Height="450" Width="815">
+                <!-- Semi-transparent background for the pause menu -->
+                <Grid.Background>
+                    <SolidColorBrush Color="Black" Opacity="0.3"/>
+                </Grid.Background>
+
+                <!-- Content in the pause menu (title and buttons) -->
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <!-- Title -->
+                    <TextBlock Text="Paused" Foreground="White" FontSize="36" HorizontalAlignment="Center" Opacity="1" Margin="0,0,0,20"/>
+
+                    <!-- Resume Button -->
+                    <Button x:Name="ResumeButton" Content="Resume" Width="100" Height="25" Click="PlayButton_Click" Opacity="1" Margin="0,10,0,0"/>
+
+                    <!-- Reset Ball Button -->
+                    <Button x:Name="ResetBallButton" Content="Reset Ball" Width="100" Height="25" Click="ResetBallButton_Click" Opacity="1" Margin="0,10,0,0"/>
+
+                    <!-- Exit to Main Menu Button -->
+                    <Button x:Name="ExitButton" Content="Exit to Main Menu" Width="150" Height="25" Click="ExitButton_Click" Opacity="1" Margin="0,10,0,0"/>
+
+                    <!-- Text indicating difficulty selection is disabled during pause -->
+                    <TextBlock Text="Difficulty Selection Disabled" Foreground="Gray" FontSize="16" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Pause Button (only visible during gameplay) -->
+            <Button x:Name="PauseButton" Content="Pause" Width="50" Height="25" Canvas.Right="10" Canvas.Top="10" Visibility="Collapsed" Click="PauseButton_Click"/>
+        </Canvas>
+    </Viewbox>
+</Window>
